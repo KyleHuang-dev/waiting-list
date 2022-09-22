@@ -1,0 +1,29 @@
+h1{
+    color: red;
+}
+.completed{
+    text-decoration: line-through;
+    color: gray;
+}
+.not{
+    text-decoration: underline;
+}
+
+body{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body::before {
+    display: block;
+    content: '';
+    height: 70px;
+  }
+
+.login-container{
+    margin: 10% auto;
+    max-width: 50%;
+}
+
+.login-container a{
+    margin: 15px;
+}
