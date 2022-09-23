@@ -21,7 +21,10 @@ body::before {
 
 .login-container{
     margin: 10% auto;
-    max-width: 50%;
+    max-width: 70%;
+}
+.card{
+  width: 40vw;
 }
 
 .login-container a{

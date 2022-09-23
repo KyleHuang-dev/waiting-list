@@ -10,6 +10,8 @@ const logger = require("morgan");
 const connectDB = require("./config/database");
 
 const mainRoutes = require("./routes/main");
+const customerRoutes = require("./routes/customers");
+// const waitingListRoutes = require("./routes/waitingList");
 
 
 //Use .env file in config folder
@@ -56,9 +58,11 @@ app.use(passport.session());
 //Use flash messages for errors, info, ect...
 app.use(flash());
 
-//Setup Routes For Which The Server Is Listening
+//Setup Routes For Which The Server Is listening
 app.use("/", mainRoutes);
-// app.use("/post", postRoutes);
+app.use("/customer", customerRoutes);
+// app.use("/waitingList", waitingListRoutes);
+
 // app.use("/comment", commentRoutes);
 
 //Server Running
