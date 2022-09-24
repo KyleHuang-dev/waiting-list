@@ -36,11 +36,16 @@ module.exports = {
   },
     updateCustomer: async (req, res) => {
     try {
+      // Find post by id
+      let customer = await Customer.findById({ _id: req.params.id });
+      if (customer.cloudinaryId)
+        // Delete image from cloudinary
+        await cloudinary.uploader.destroy(customer.cloudinaryId);
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
-
-      await Customer.findByIdAndUpdate(
-        { _id:req.params.id },
+      
+      await Customer.findOneAndUpdate(
+        { _id: req.params.id },
         {
           name: req.body.name,
           image: result.secure_url,
