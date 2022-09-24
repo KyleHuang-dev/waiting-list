@@ -4,7 +4,7 @@ module.exports = {
   getWaitingList: async (req, res) => {
     try {
       const waitingList = await Customer.find({waiting:true}).sort({ editedAt: "desc" }).lean();
-      res.render("waitingList.ejs", { waitingList : waitingList  });
+      res.render("waitingList.ejs", { waitingList : waitingList, user: req.user });
     } catch (err) {
       console.log(err);
     }
