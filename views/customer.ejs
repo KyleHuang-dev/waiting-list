@@ -1,0 +1,44 @@
+
+
+
+<!-- <img src=" <%= customer.image %>" alt=""> -->
+
+
+
+
+<div class="col-6">
+    <h4>Profile image</h4>
+    <img class="img-fluid" src="<%= customer.image%>" />
+   
+
+   
+      <!-- <form
+        action="/post/deletePost/<%= customer.id %>?_method=DELETE"
+        method="POST"
+        class="col-3"
+      >
+        <button class="btn btn-primary fa fa-trash" type="submit"></button>
+      </form> -->
+      <div class="mt-5">
+        <form action="/customer/updateCustomer/:id?_method=PUT" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" value="<%= customer.name %>" id="name" name="name">
+          </div>
+          <h2>Phone Number: <%= customer.phoneNumber %></h2>
+          <h2>VIP : <%= customer.vip %></h2>
+          <h2>Tracking:  <%= customer.track %></h2>
+          <div class="mb-3">
+            <label for="note" class="form-label">Note</label>
+            <textarea class="form-control" id="note" value="<%= customer.note %>" name="note"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">Image</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+       
+  </div>

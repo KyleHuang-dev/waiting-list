@@ -1,4 +1,5 @@
 const Customer = require("../models/Customer");
+const cloudinary = require("../middleware/cloudinary");
 
 module.exports = {
   getWaitingList: async (req, res) => {
@@ -9,35 +10,50 @@ module.exports = {
       console.log(err);
     }
   },
-  // getPost: async (req, res) => {
-  //   try {
-  //     const post = await Post.findById(req.params.id);
-  //     const comments = await Comment.find({post:req.params.id}).sort({ createdAt: "desc" }).lean();
+  getCustomer: async (req, res) => {
+    try {
+      const customer = await Customer.findById(req.params.id);
+      res.render("customer.ejs", { customer : customer});
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  createCustomer: async (req, res) => {
+    try {
+      await Customer.create({
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        vip: false,
+        waiting : true,
+        track: 0,
+        editedAt: Date.now(),
+      });
+      console.log("Customer has been added!");
+      res.redirect("/waitingList");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+    updateCustomer: async (req, res) => {
+    try {
+      // Upload image to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path);
 
-  //     res.render("post.ejs", { post: post, user: req.user, comments:comments});
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
-  // createPost: async (req, res) => {
-  //   try {
-  //     // Upload image to cloudinary
-  //     const result = await cloudinary.uploader.upload(req.file.path);
-
-  //     await Post.create({
-  //       title: req.body.title,
-  //       image: result.secure_url,
-  //       cloudinaryId: result.public_id,
-  //       caption: req.body.caption,
-  //       likes: 0,
-  //       user: req.user.id,
-  //     });
-  //     console.log("Post has been added!");
-  //     res.redirect("/profile");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+      await Customer.findByIdAndUpdate(
+        { _id:req.params.id },
+        {
+          name: req.body.name,
+          image: result.secure_url,
+          cloudinaryId: result.public_id,
+          note: req.body.note,
+        }
+      );
+      console.log("Update customer profile");
+      res.redirect(`/waitingList`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   // likePost: async (req, res) => {
   //   try {
   //     await Post.findOneAndUpdate(

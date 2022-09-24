@@ -1,24 +1,34 @@
-<%- include('./partials/header'); -%>
-<%- include('./partials/nav'); -%> 
+
 <div class="container">
-
-
-<h1>Waiting List</h1> 
+    <div class="mt-5">
+        <h2>Add to List</h2>
+        <form action="/customer/createCustomer" method="POST">
+            <div class="container d-flex ">
+                <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber">
+                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
 
     <div>
-        <p><strong>User Name</strong>: <%= user.userName %></p>
-        <p><strong>Email</strong>: <%= user.email %></p>
-        <a href="/logout" class="col-3 btn btn-primary">Logout</a>
-    </div>
-    <div class="mt-5">
-    <h2>Add to List</h2>
-    <form action="/post/createCustomer" method="POST">
-        <div class="container d-flex ">
-            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber">
-            <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-        </div>
-    </form>
+        <ul>
+        <h1>Waiting List</h1>
+        <% waitingList.forEach ( customer =>{ %>
+            <li class="waitingList d-flex justify-content-between" data-id="<%= customer._id %>"> 
+                
+                <span>
+                    <img class= "<%= customer.imgage ? 'image' : 'notDisplay' %>" src="<%=customer.image %>" alt="">
+                    <span class="<%= customer.vip ? 'vip' : 'notDisplay' %>">
+                        *VIP* 
+                    </span>
+                    <a href="/customer/<%= customer._id %>"><%= customer.name %></a>
+                </span>
+                <span>message</span>
+                <span>Done</span>
+            </li>
+        <% }) %>
+        </ul>   
     </div>
 </div>
 <%- include('./partials/footer'); -%> 
