@@ -18,6 +18,14 @@ module.exports = {
       console.log(err);
     }
   },
+  getPhoneBook: async (req, res) => {
+    try {
+      const customers = await Customer.find().sort({ editedAt: "desc" }).lean();
+      res.render("phoneBook.ejs", { customers: customers });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   createCustomer: async (req, res) => {
     try {
       await Customer.create({

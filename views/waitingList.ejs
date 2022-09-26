@@ -1,45 +1,82 @@
 <%- include('./partials/header'); -%>
+<%- include('./partials/nav'); -%>
 
+<div class="container mx-auto px-5">
+    <h1>Waiting List</h1>
+    <form  class="flex my-5" action="/customer/createCustomer" method="POST">
+        <input type="text" placeholder="Name" class="input input-bordered w-full max-w-xs" name="name"/>
+        <input type="text" placeholder="Phone Number" class="input input-bordered w-full max-w-xs" name="phoneNumber"/>
+        <button class="btn btn-active btn-primary" type="submit">Add Customer</button>
+    </form>
 
-<div class="container">
-    <div class="mt-5">
-        <h2>Add to List</h2>
-        <form action="/customer/createCustomer" method="POST">
-            <div class="container d-flex ">
-                <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-                <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber">
-                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-            </div>
-        </form>
-    </div>
-
-    <div>
-        <ul>
-        <h1>Waiting List</h1>
+  <div class="overflow-x-auto w-full">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>
+            VIP
+          </th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Action</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
         <% waitingList.forEach ( customer =>{ %>
-            <li class="waitingList d-flex justify-content-between" data-id="<%= customer._id %>"> 
-                
-                <span>
-                    <img class= "<%= customer.imgage ? 'image' : 'notDisplay' %>" src="<%=customer.image %>" alt="">
-                    <span class="<%= customer.vip ? 'vip' : 'notDisplay' %>">
-                        *VIP* 
-                    </span>
-                    <a href="/customer/<%=customer._id%>"><%= customer.name %></a>
-                </span>
-                <span>message</span>
-
-                <form
+            <tr>
+                <th>
+                    <i class="fa fa-star text-2xl text-yellow-500 <%=customer.vip? '':'notDisplay' %> "></i>
+                </th>
+                <td>
+                  <div class="flex items-center space-x-3">
+                    <div class="avatar">
+                      <div class="mask mask-squircle w-12 h-12">
+                        <% if(customer.image) { %>
+                            <img src="<%= customer.image %>"  alt="" />
+                        <%}%>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="font-bold"><a href="/customer/<%=customer._id%>"><%= customer.name %></div>
+                      
+                    </div>
+                  </div>
+                </td>
+                <td>
+                    <%= customer.phoneNumber %>
+                </td>
+                <td>
+                    <form
                     class="col-1"
                     action="/customer/sendMessage/<%= customer._id %>"
                     method="POST"
                     >
-                    <button class="btn btn-primary" type="submit">Send Message</button>
+                    <button class="btn btn-info btn-xs" type="submit">Send Message</button>
                 </form>
-
-                <span>Done</span>
-            </li>
+                    
+                </td>
+                <th>
+                  <button class="btn btn-ghost btn-xs"><a href="/customer/<%=customer._id%>">details</a></button>
+                  <button class="btn btn-ghost btn-xs">remove</button>
+                </th>
+            </tr>
         <% }) %>
-        </ul>   
-    </div>
+        
+        
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>VIP</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Action</th>
+          <th></th>
+        </tr>
+      </tfoot>
+      
+    </table>
+  </div>
 </div>
-<%- include('./partials/footer'); -%> 

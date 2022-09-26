@@ -1,0 +1,68 @@
+<%- include('./partials/header'); -%>
+<%- include('./partials/nav'); -%>
+
+<div class="container mx-auto px-5">
+    <h1>Phone Book</h1>
+
+  <div class="overflow-x-auto w-full py-10 ">
+    <table class="table w-full ">
+      <!-- head -->
+      <thead >
+        <tr>
+          <th></th>
+          <th>
+            VIP
+          </th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <% customers.forEach ( (customer,i) =>{ %>
+            <tr>
+                <th>
+                    <%= i+1 %>
+                </th>
+                <th>
+                    <i class="fa fa-star text-2xl text-yellow-500 <%=customer.vip? '':'notDisplay' %> "></i>
+                </th>
+                <td>
+                  <div class="flex items-center space-x-3">
+                    
+                    <div>
+                      <div class="font-bold"><a href="/customer/<%=customer._id%>"><%= customer.name %></div>
+                      
+                    </div>
+                  </div>
+                </td>
+                <td>
+                    <%= customer.phoneNumber %>
+                </td>
+               
+                <th>
+                    <button class="btn btn-accent btn-xs"><a href="/customer/<%=customer._id%>">Add to List</a></button>
+                  <button class="btn btn-ghost btn-xs"><a href="/customer/<%=customer._id%>">details</a></button>
+                  <button class="btn btn-ghost btn-xs">Delete</button>
+                </th>
+            </tr>
+        <% }) %>
+        
+        
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th></th>
+          <th>VIP</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+      
+    </table>
+  </div>
+</div>
