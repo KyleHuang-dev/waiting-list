@@ -33,46 +33,54 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-  },
+  },  
     updateCustomer: async (req, res) => {
-    try {
-      // Find post by id
-      let customer = await Customer.findById({ _id: req.params.id });
-      if (customer.cloudinaryId)
-        // Delete image from cloudinary
-        await cloudinary.uploader.destroy(customer.cloudinaryId);
-      // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
-      
-      await Customer.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          name: req.body.name,
-          image: result.secure_url,
-          cloudinaryId: result.public_id,
-          note: req.body.note,
-        }
-      );
-      console.log("Update customer profile");
-      res.redirect(`/waitingList`);
-    } catch (err) {
-      console.log(err);
-    }
-  },
-    sendMessage: (req, res) => {
-    
-      const accountSid = process.env.TWILIO_ACCOUNT_SID;
-      const authToken = process.env.TWILIO_AUTH_TOKEN;
-      const client = require('twilio')(accountSid, authToken);
+      try {
+        // Find post by id
+        let customer = await Customer.findById({ _id: req.params.id });
+        if (customer.cloudinaryId)
+          // Delete image from cloudinary
+          await cloudinary.uploader.destroy(customer.cloudinaryId);
+        // Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+        
+        await Customer.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            name: req.body.name,
+            image: result.secure_url,
+            cloudinaryId: result.public_id,
+            note: req.body.note,
+          }
+        );
+        console.log("Update customer profile");
+        res.redirect(`/waitingList`);
+      } catch (err) {
+        console.log(err);
+      }
+    },  
+    sendMessage: async(req, res) => {
+      try {
+        let customer = await Customer.findById({ _id: req.params.id });
+        const customerPhoneNum = customer.phoneNumber;
+        const accountSid = process.env.TWILIO_ACCOUNT_SID;
+        const authToken = process.env.TWILIO_AUTH_TOKEN;
+        const senderNumber = process.env.TWILIO_SENDER_NUMBER;
+        const client = require('twilio')(accountSid, authToken);
       
       client.messages
         .create({
-           body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-           from: '+19894364790',
-           to: '+14031234567'
+           body: 'Your Table is ready. Thanks!',
+           from: senderNumber,
+           to: "+1" + customerPhoneNum,
          })
-        .then(message => console.log(message.sid));
+        // .then(message => console.log(message.sid));
         res.redirect(`/waitingList`);
+      }catch (err) {
+        console.log(err);
+      }
+
+      
     },
   
   // likePost: async (req, res) => {
