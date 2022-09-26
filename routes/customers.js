@@ -11,6 +11,8 @@ router.post("/createCustomer", customersController.createCustomer);
 
 router.put("/updateCustomer/:id", upload.single("file"), customersController.updateCustomer);
 
+router.post("/sendMessage", customersController.sendMessage);
+
 // router.put("/vipCustomer/:id", customersController.vipCustomer);
 
 // router.put("/notWaitingCustomer/:id", customersController.notWaitingCustomer);

@@ -11,6 +11,7 @@ const connectDB = require("./config/database");
 
 const mainRoutes = require("./routes/main");
 const customerRoutes = require("./routes/customers");
+// const messageRoutes = require("./routes/messages");
 // const waitingListRoutes = require("./routes/waitingList");
 
 
