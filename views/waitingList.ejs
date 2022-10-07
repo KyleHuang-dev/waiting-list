@@ -58,9 +58,16 @@
                 </form>
                     
                 </td>
-                <th>
+                <th class="flex">
                   <button class="btn btn-ghost btn-xs"><a href="/customer/<%=customer._id%>">details</a></button>
-                  <button class="btn btn-ghost btn-xs">remove</button>
+                
+                  <form
+                    class=""
+                    action="/customer/removeFromList/<%= customer._id %>?_method=PUT"
+                    method="POST"
+                    >
+                    <button class="btn btn-ghost btn-xs">remove from list</button>
+                  </form>
                 </th>
             </tr>
         <% }) %>

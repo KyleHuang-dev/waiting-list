@@ -90,6 +90,20 @@ module.exports = {
 
       
     },
+    removeFromList: async (req, res) => {
+        try {
+          await Customer.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              waiting:false,
+            }
+          );
+          console.log("Remove from list");
+          res.redirect(`/waitingList`);
+        } catch (err) {
+          console.log(err);
+        }
+      },
   
   // likePost: async (req, res) => {
   //   try {

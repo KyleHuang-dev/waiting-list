@@ -15,7 +15,7 @@ router.post("/sendMessage/:id", customersController.sendMessage);
 
 // router.put("/vipCustomer/:id", customersController.vipCustomer);
 
-// router.put("/notWaitingCustomer/:id", customersController.notWaitingCustomer);
+router.put("/removeFromList/:id", customersController.removeFromList);
 
 // router.delete("/deleteCustomer/:id", customersController.deleteCustomer);
 
