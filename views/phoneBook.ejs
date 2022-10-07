@@ -15,8 +15,8 @@
           </th>
           <th>Name</th>
           <th>Phone Number</th>
-          <th></th>
-          <th></th>
+          <th>Action</th>
+     
         </tr>
       </thead>
       <tbody>
@@ -42,10 +42,24 @@
                     <%= customer.phoneNumber %>
                 </td>
                
-                <th>
-                    <button class="btn btn-accent btn-xs"><a href="/customer/<%=customer._id%>">Add to List</a></button>
+                <th class="flex">
+                  <form
+                    class=""
+                    action="/customer/addToList/<%= customer._id %>?_method=PUT"
+                    method="POST"
+                    >
+                    <button class="btn btn-accent btn-xs">add to list</button>
+                  </form>
+              
                   <button class="btn btn-ghost btn-xs"><a href="/customer/<%=customer._id%>">details</a></button>
+
+                  <form
+                  class=""
+                  action="/customer/deleteCustomer/<%= customer._id %>?_method=DELETE"
+                  method="POST"
+                  >
                   <button class="btn btn-ghost btn-xs">Delete</button>
+                </form>
                 </th>
             </tr>
         <% }) %>
@@ -58,8 +72,8 @@
           <th>VIP</th>
           <th>Name</th>
           <th>Phone Number</th>
-          <th></th>
-          <th></th>
+          <th>Action</th>
+        
         </tr>
       </tfoot>
       

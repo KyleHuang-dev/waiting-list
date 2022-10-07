@@ -104,7 +104,20 @@ module.exports = {
           console.log(err);
         }
       },
-  
+      addToList: async (req, res) => {
+        try {
+          await Customer.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              waiting:true,
+            }
+          );
+          console.log("Remove from list");
+          res.redirect(`/waitingList`);
+        } catch (err) {
+          console.log(err);
+        }
+      },
   // likePost: async (req, res) => {
   //   try {
   //     await Post.findOneAndUpdate(
@@ -119,18 +132,18 @@ module.exports = {
   //     console.log(err);
   //   }
   // },
-  // deletePost: async (req, res) => {
-  //   try {
-  //     // Find post by id
-  //     let post = await Post.findById({ _id: req.params.id });
-  //     // Delete image from cloudinary
-  //     await cloudinary.uploader.destroy(post.cloudinaryId);
-  //     // Delete post from db
-  //     await Post.remove({ _id: req.params.id });
-  //     console.log("Deleted Post");
-  //     res.redirect("/profile");
-  //   } catch (err) {
-  //     res.redirect("/profile");
-  //   }
-  // },
+  deleteCustomer: async (req, res) => {
+    try {
+      // Find post by id
+      let customer = await Customer.findById({ _id: req.params.id });
+      // Delete image from cloudinary
+      await cloudinary.uploader.destroy(customer.cloudinaryId);
+      // Delete post from db
+      await Customer.remove({ _id: req.params.id });
+      console.log("Deleted Customer");
+      res.redirect("/phoneBook");
+    } catch (err) {
+      res.redirect("/phoneBook");
+    }
+  },
 };

@@ -17,6 +17,8 @@ router.post("/sendMessage/:id", customersController.sendMessage);
 
 router.put("/removeFromList/:id", customersController.removeFromList);
 
-// router.delete("/deleteCustomer/:id", customersController.deleteCustomer);
+router.put("/addToList/:id", customersController.addToList);
+
+router.delete("/deleteCustomer/:id", customersController.deleteCustomer);
 
 module.exports = router;
