@@ -1,5 +1,6 @@
 const Customer = require("../models/Customer");
 const cloudinary = require("../middleware/cloudinary");
+const validator = require("validator");
 
 module.exports = {
   getWaitingList: async (req, res) => {
@@ -27,6 +28,17 @@ module.exports = {
     }
   },
   createCustomer: async (req, res) => {
+    const validationErrors = [];
+    if (validator.isEmpty(req.body.phoneNumber) || validator.isEmpty(req.body.name))
+      validationErrors.push({msg: "Please enter customer name and phone number."});
+    else if (!validator.isNumeric(req.body.phoneNumber) || !validator.isLength(req.body.phoneNumber, { min: 10 }))
+      validationErrors.push({ msg: "Please enter a valid 10 digtals phone number." });
+
+    if (validationErrors.length) {
+      req.flash("errors", validationErrors);
+      return res.redirect("/waitingList");
+    }
+
     try {
       await Customer.create({
         name: req.body.name,
@@ -41,31 +53,50 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+    
   },  
     updateCustomer: async (req, res) => {
-      try {
-        // Find post by id
-        let customer = await Customer.findById({ _id: req.params.id });
-        if (customer.cloudinaryId)
-          // Delete image from cloudinary
-          await cloudinary.uploader.destroy(customer.cloudinaryId);
-        // Upload image to cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
-        
-        await Customer.findOneAndUpdate(
-          { _id: req.params.id },
-          {
-            name: req.body.name,
-            image: result.secure_url,
-            cloudinaryId: result.public_id,
-            note: req.body.note,
-          }
-        );
-        console.log("Update customer profile");
-        res.redirect(`/waitingList`);
-      } catch (err) {
-        console.log(err);
-      }
+      if(!req.file){
+        try {
+          console.log(req.body)
+          await Customer.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              name: req.body.name,
+              note: req.body.note,
+            }
+          );
+          console.log("Update customer profile");
+          res.redirect(`/waitingList`);
+        } catch (err) {
+          console.log(err);
+        }
+      }else{
+        try {
+          
+          // Find post by id
+          let customer = await Customer.findById({ _id: req.params.id });
+          if (customer.cloudinaryId)
+            // Delete image from cloudinary
+            await cloudinary.uploader.destroy(customer.cloudinaryId);
+          // Upload image to cloudinary
+          const result = await cloudinary.uploader.upload(req.file.path);
+          
+          await Customer.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              name: req.body.name,
+              image: result.secure_url,
+              cloudinaryId: result.public_id,
+              note: req.body.note,
+            }
+          );
+          console.log("Update customer profile");
+          res.redirect(`/waitingList`);
+        } catch (err) {
+          console.log(err);
+        }
+     }
     },  
     sendMessage: async(req, res) => {
       try {
@@ -110,6 +141,7 @@ module.exports = {
             { _id: req.params.id },
             {
               waiting:true,
+              editedAt:Date.now(),
             }
           );
           console.log("Remove from list");

@@ -3,12 +3,24 @@
 
 <div class="container mx-auto px-5">
     <h1>Waiting List</h1>
+    
     <form  class="flex my-5" action="/customer/createCustomer" method="POST">
         <input type="text" placeholder="Name" class="input input-bordered w-full max-w-xs" name="name"/>
         <input type="text" placeholder="Phone Number" class="input input-bordered w-full max-w-xs" name="phoneNumber"/>
         <button class="btn btn-active btn-primary" type="submit">Add Customer</button>
     </form>
 
+    <% if (locals.messages.errors) { %>
+      <% messages.errors.forEach( el => { %>
+        <div class="alert alert-error shadow-lg">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span><%= el.msg %></span>
+          </div>
+        </div>
+      <% }) %>    
+    <% } %>
+   
   <div class="overflow-x-auto w-full">
     <table class="table w-full">
       <!-- head -->
