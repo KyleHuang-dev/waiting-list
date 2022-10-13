@@ -40,7 +40,13 @@
         <% waitingList.forEach ( customer =>{ %>
             <tr>
                 <th>
-                    <i class="fa fa-star text-2xl text-yellow-500 <%=customer.vip? '':'notDisplay' %> "></i>
+                  <form
+                    class="col-1"
+                    action="/customer/changeVip/<%= customer._id %>?_method=PUT"
+                    method="POST"
+                  >
+                    <button class="fa fa-star text-2xl  <%=customer.vip? 'text-yellow-500':'text-gray-200' %> " type="submit"></button>
+                  </form>
                 </th>
                 <td>
                   <div class="flex items-center space-x-3">

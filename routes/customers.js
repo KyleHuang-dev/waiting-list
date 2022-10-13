@@ -13,7 +13,7 @@ router.put("/updateCustomer/:id", upload.single("file"), customersController.upd
 
 router.post("/sendMessage/:id", customersController.sendMessage);
 
-// router.put("/vipCustomer/:id", customersController.vipCustomer);
+router.put("/changeVip/:id", customersController.changeVip);
 
 router.put("/removeFromList/:id", customersController.removeFromList);
 

@@ -150,20 +150,23 @@ module.exports = {
           console.log(err);
         }
       },
-  // likePost: async (req, res) => {
-  //   try {
-  //     await Post.findOneAndUpdate(
-  //       { _id: req.params.id },
-  //       {
-  //         $inc: { likes: 1 },
-  //       }
-  //     );
-  //     console.log("Likes +1");
-  //     res.redirect(`/post/${req.params.id}`);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+  changeVip: async (req, res) => {
+    console.log(req.body)
+    try {
+      const customer = await Customer.findOne({ _id: req.params.id })
+      
+      await Customer.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          vip : !customer.vip,
+        }
+      );
+      console.log("Change vip status");
+      res.redirect(`/waitingList`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   deleteCustomer: async (req, res) => {
     try {
       // Find post by id
