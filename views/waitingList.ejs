@@ -2,7 +2,7 @@
 <%- include('./partials/nav'); -%>
 
 <div class="container mx-auto px-5">
-    <h1>Waiting List</h1>
+    <h1 class="text-4xl">Waiting List</h1>
     
     <form  class="flex my-5" action="/customer/createCustomer" method="POST">
         <input type="text" placeholder="Name" class="input input-bordered w-full max-w-xs" name="name"/>
@@ -32,7 +32,7 @@
           <th>Name</th>
           <th>Phone Number</th>
           <th>Action</th>
-          <th></th>
+          <th>More</th>
         </tr>
       </thead>
       <tbody>
@@ -68,15 +68,16 @@
                 </td>
                 <td>
                     <form
-                    class="col-1"
-                    action="/customer/sendMessage/<%= customer._id %>"
-                    method="POST"
-                    >
-                    <button class="btn btn-info btn-xs" type="submit">Send Message</button>
-                </form>
+                      class="col-1"
+                      action="/customer/sendMessage/<%= customer._id %>"
+                      method="POST"
+                      >
+                      <button class="btn btn-info btn-xs" type="submit">Send Message</button>
+                    </form>
                     
                 </td>
-                <th class="flex">
+                <td class=""">
+
                   <button class="btn btn-ghost btn-xs"><a href="/customer/<%=customer._id%>">details</a></button>
                 
                   <form
@@ -86,7 +87,7 @@
                     >
                     <button class="btn btn-ghost btn-xs">remove from list</button>
                   </form>
-                </th>
+                </td>
             </tr>
         <% }) %>
         
@@ -98,10 +99,11 @@
           <th>Name</th>
           <th>Phone Number</th>
           <th>Action</th>
-          <th></th>
+          <th>More</th>
         </tr>
       </tfoot>
       
     </table>
   </div>
 </div>
+<%- include('partials/footer'); -%>

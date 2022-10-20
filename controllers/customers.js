@@ -109,7 +109,7 @@ module.exports = {
       
       client.messages
         .create({
-           body: 'Your Table is ready. Thanks!',
+           body: "Thanks for using Kyle's Waiting List App! If you have any questions, please feel free to contact me at kyle.huang.dev@gmail.com .",
            from: senderNumber,
            to: "+1" + customerPhoneNum,
          })
@@ -171,12 +171,18 @@ module.exports = {
     try {
       // Find post by id
       let customer = await Customer.findById({ _id: req.params.id });
-      // Delete image from cloudinary
-      await cloudinary.uploader.destroy(customer.cloudinaryId);
-      // Delete post from db
-      await Customer.remove({ _id: req.params.id });
-      console.log("Deleted Customer");
+      if (customer.note==="demo")
+        console.log("Can't delete demo customer");
+      else{
+        // Delete image from cloudinary
+        if (customer.cloudinaryId)
+          await cloudinary.uploader.destroy(customer.cloudinaryId);
+        // Delete post from db
+        await Customer.remove({ _id: req.params.id });
+        console.log("Deleted Customer");
+      }
       res.redirect("/phoneBook");
+     
     } catch (err) {
       res.redirect("/phoneBook");
     }
