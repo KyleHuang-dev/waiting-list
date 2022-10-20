@@ -6,6 +6,9 @@
         <form action="/login" method="POST">
             <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
             <h1 class="h3 mb-3 fw-normal">Please log in</h1>
+            <p>To test the app, please ues login information list below:</p>
+            <p>Email:    test@test.com</p>
+            <p>Password: test1234</p>
             <% if (locals.messages.errors) { %>
                 <% messages.errors.forEach( el => { %>
                     <p class="alert-red">*<%= el.msg %></p>
